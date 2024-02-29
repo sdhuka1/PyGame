@@ -80,6 +80,7 @@ class AlienInvasion:
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_activate = True
+            self.sb.prep_score()
             #This hides the mouse cursor
             pygame.mouse.set_visible(False)
 
@@ -129,6 +130,11 @@ class AlienInvasion:
         #This responds to bullet-alien collisions
         #This removes any bullets and aliens that have collided
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
 
         if not self.aliens:
             #This detroys existing bullets and creates a new fleet
