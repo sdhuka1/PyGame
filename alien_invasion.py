@@ -72,10 +72,13 @@ class AlienInvasion:
     
     def _check_play_button(self, mouse_pos):
         #This starts a new game when the player clicks Play
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_activate:
             #This resets the game statistics
             self.stats.reset_stats()
             self.stats.game_activate = True
+            #This hides the mouse cursor
+            pygame.mouse.set_visible(False)
 
             #This gets rid of any remaining aliens and bullets
             self.aliens.empty()
@@ -161,6 +164,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_activate = False
+            pygame.mouse.set_visible(True)
     
     def _check_aliens_bottom(self):
         #This checks if any aliens have reached the bottom of the screen
