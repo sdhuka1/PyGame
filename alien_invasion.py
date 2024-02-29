@@ -81,6 +81,8 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_activate = True
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             #This hides the mouse cursor
             pygame.mouse.set_visible(False)
 
@@ -142,6 +144,10 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            #This increases the level
+            self.stats.level += 1
+            self.sb.prep_level()
     
     def _update_aliens(self):
         #This checks if the fleet is at an edge, then updates the position of all the aliens in the fleet
@@ -160,8 +166,9 @@ class AlienInvasion:
         #This responds to the ship being hit by an alien
 
         if self.stats.ships_left > 0:
-            #This decrements ships_left
+            #This decrements ships_left and updates the scoreboard
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #This gets rid of any remaining aliens and bullets
             self.aliens.empty()
