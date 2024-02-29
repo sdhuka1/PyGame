@@ -14,7 +14,7 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode(self.settings.screen_width, self.settings.screen_height)
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
 
         pygame.display.set_caption("Alien Invasion")
 
@@ -26,17 +26,24 @@ class AlienInvasion:
     def run_game(self):
         #This starts the main loop for the game
         while True:
-            #This watches for keyboard and mouse events
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
+            self._update_screen()
             
-            #This redraws the screen during each pass through the loop
-            self.screen.fill(self.settings.bg_color)
-            self.ship.blitme()
+    
+    def _check_events(self):
+        #This responds to keypresses and mouse events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
 
-            #This makes the most recently drawn screen visible
-            pygame.display.flip()
+    def _update_screen(self):
+        #This updates the images on the screen and flips them to the new screen
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
+
+        #This makes the most recently drawn screen visible
+        pygame.display.flip()
+
 if __name__ == '__main__':
     #This makes the game instance and runs the game
     ai = AlienInvasion()
